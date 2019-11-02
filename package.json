@@ -4,8 +4,10 @@
   "description": "Teamwork is an ​internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding. ",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node ./server/server.js"
+    "test": "babel-node mocha ./server/test/test.test.js --exit --timeout 20000",
+    "start": "nodemon --exec babel-node ./server/server.js",
+    "migration": "babel-node ./server/models/db/migrations.js",
+    "seed": "babel-node ./server/models/db/seed.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +21,14 @@
   "homepage": "https://github.com/olumidae/Teamwork#readme",
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.16.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "joi": "^13.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.12.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
