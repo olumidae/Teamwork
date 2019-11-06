@@ -1,13 +1,13 @@
-import chai from 'chai';
-import chaiHttp from 'chai-http';
-import app from '../app';
-import pool from '../models/db/db';
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const app = require('../app');
+const pool = require('../models/db/db');
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
-let admintoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE1NzI2NDk4MjcsImV4cCI6MTU3NjMzNjIyN30.NFnCILcyafULX4MT0i8EIFJHP1DLgYZ6V328AEB-bAA';
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTU3MjY4NzA3NSwiZXhwIjoxNTc2MzczNDc1fQ.KguDKWBGYQ09tGzTfKupjtA4sB7nQbgihsW0iUeMUac';
+let admintoken;
+let token;
 
 describe('User Authentication', () => {
   before((done) => {
