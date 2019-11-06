@@ -1,5 +1,6 @@
 import pool from './db';
 
+
 const createTable = `DROP TABLE IF EXISTS users CASCADE;
     CREATE TABLE Users (
     id SERIAL PRIMARY KEY NOT NULL,
@@ -18,6 +19,7 @@ const createTable = `DROP TABLE IF EXISTS users CASCADE;
         id SERIAL PRIMARY KEY NOT NULL,
         title VARCHAR(128) NOT NULL,
         imageURL VARCHAR NOT NULL,
+        imageCloudId VARCHAR(255) NOT NULL,
         createdBy SERIAL NOT NULL REFERENCES Users (id),
         createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -36,8 +38,7 @@ const createTable = `DROP TABLE IF EXISTS users CASCADE;
         articleId SERIAL NOT NULL REFERENCES Articles (id),
         articleComment VARCHAR(400) NOT NULL,
         createdBy SERIAL NOT NULL REFERENCES Users (id),
-        createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        
+        createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
     );
     DROP TABLE IF EXISTS GifComments CASCADE;
     CREATE TABLE GifComments (
@@ -49,4 +50,5 @@ const createTable = `DROP TABLE IF EXISTS users CASCADE;
     )
 
 `;
+
 pool.query(createTable).catch((err) => console.log(err.message));

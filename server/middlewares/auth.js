@@ -40,10 +40,6 @@ export const tokenValidator = {
         status: 'error', error: 'Token not provided',
       });
     }
-    return res.status(500).json({
-      status: 'error',
-      error: 'Internal server error',
-    });
   },
 
   async validateAdminToken(req, res, next) {
