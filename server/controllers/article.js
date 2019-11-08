@@ -77,6 +77,42 @@ const Article = {
     }
   },
 
+  async deleteArticle(req, res) {
+    const { articleId } = req.params;
+    const { id } = req.user;
+    const selectArticle = {
+      text: 'SELECT * FROM Articles WHERE createdBy = $1 AND id= $2',
+      values: [id, articleId],
+    };
+    // 'DELETE FROM Articles WHERE id = $1 AND createdBy = $2',
+    try {
+      const { rows } = await pool.query(selectArticle);
+      console.log(rows[0])
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 'error',
+          error: 'No article found',
+        });
+      }
+
+      const deleteArticle = {
+        text: 'DELETE FROM Articles WHERE id= $1',
+        values: [articleId],
+      };
+      await pool.query(deleteArticle);
+      return res.status(200).json({
+        status: 'error',
+        data: {
+          message: 'Article successfully deleted',
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 'error',
+        error: `Server Error: ${error.message}`,
+      });
+    }
+  },
 };
 
 export default Article;

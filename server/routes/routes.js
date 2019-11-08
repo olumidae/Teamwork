@@ -14,5 +14,6 @@ router.post('/auth/signin', loginValidator, User.logInUser);
 // router.post('/gifs', tokenValidator.validateUserToken, gifValidator, upload.any(), Gif.postGifs);
 router.post('/articles', tokenValidator.validateUserToken, validateArticle, Article.postArticle);
 router.patch('/articles/:articleId', tokenValidator.validateUserToken, validateArticle, Article.editArticles);
+router.delete('/articles/:articleId', tokenValidator.validateUserToken, Article.deleteArticle);
 
 export default router;
