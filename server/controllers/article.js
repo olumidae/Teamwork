@@ -39,26 +39,13 @@ const Article = {
   },
 
   async editArticles(req, res) {
-    const { id } = req.user;
     const { articleId } = req.params;
     const { title, article } = req.body;
-    const selectArticle = {
-      text: 'SELECT * FROM Articles WHERE createdBy = $1 AND id= $2',
-      values: [id, articleId],
+    const updateArticle = {
+      text: 'UPDATE Articles SET title = $1, article = $2 WHERE id = $3',
+      values: [title, article, articleId],
     };
     try {
-      const { rows } = await pool.query(selectArticle);
-      if (!rows[0]) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'No article found',
-        });
-      }
-
-      const updateArticle = {
-        text: 'UPDATE Articles SET title = $1, article = $2 WHERE id = $3',
-        values: [title, article, articleId],
-      };
       await pool.query(updateArticle);
 
       return res.status(200).json({
@@ -87,7 +74,6 @@ const Article = {
     // 'DELETE FROM Articles WHERE id = $1 AND createdBy = $2',
     try {
       const { rows } = await pool.query(selectArticle);
-      console.log(rows[0])
       if (!rows[0]) {
         return res.status(404).json({
           status: 'error',
