@@ -27,6 +27,7 @@ export const tokenValidator = {
         const rows = await queryUser(decoded);
         if (rows[0]) {
           req.user = rows[0];
+          console.log(rows[0]);
           req.decoded = decoded;
           return next();
         }
