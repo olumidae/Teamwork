@@ -99,6 +99,44 @@ const Article = {
       });
     }
   },
+
+  async getArticleById(req, res) {
+    const { articleId } = req.params;
+    const findArticle = {
+      text: 'SELECT * FROM Articles where id = $1',
+      values: [articleId],
+    };
+    const findComments = {
+      text: 'SELECT * FROM ArticleComments WHERE articleId = $1',
+      values: [articleId],
+    };
+
+    try {
+      const { rows } = await pool.query(findArticle);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 'error',
+          error: 'Article not found',
+        });
+      }
+      const { rows: comments } = await pool.query(findComments);
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          id: rows[0].id,
+          createdon: rows[0].createdon,
+          title: rows[0].title,
+          article: rows[0].article,
+          comments,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 'error',
+        error: `Server Error: ${error.message}`,
+      });
+    }
+  },
 };
 
 export default Article;

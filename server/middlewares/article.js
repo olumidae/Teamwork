@@ -1,5 +1,6 @@
 import articleValidator from '../helpers/articleHelper';
 import pool from '../models/db/db';
+
 const validateArticle = (req, res, next) => {
   const { error } = articleValidator(req.body);
   if (error) {
