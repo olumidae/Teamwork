@@ -19,5 +19,6 @@ router.post('/articles', tokenValidator.validateUserToken, validateArticle, Arti
 router.patch('/articles/:articleId', tokenValidator.validateUserToken, checkArticleId, checkUserArticleId, validateArticle, Article.editArticles);
 router.delete('/articles/:articleId', tokenValidator.validateUserToken, Article.deleteArticle);
 router.post('/articles/:articleId/comment', tokenValidator.validateUserToken, checkArticleId, validateComment, Comments.postArticleComments);
+router.get('/articles/:articleId', tokenValidator.validateUserToken, Article.getArticleById);
 
 export default router;

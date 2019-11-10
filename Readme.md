@@ -45,6 +45,8 @@ To run unit tests run the command : **npm** test in the command line terminal
 
 <tr><td>GET</td><td>/api/v1/articles/<:articleId></td><td>User view specific article</td></tr>
 
+</table>
+
 ## Features
 
 ## Admin
