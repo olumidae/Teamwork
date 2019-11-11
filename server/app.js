@@ -2,10 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { resolve } from 'path';
 import bodyParser from 'body-parser';
-
 import router from './routes/routes';
 
-// import multerUploads from './middlewares/multer';
 
 require('babel-core/register');
 require('babel-polyfill');
@@ -14,9 +12,7 @@ require('babel-polyfill');
 const app = express();
 
 dotenv.config();
-// app.post('/api/v1/gifs', multerUploads, (req, res) => {
-//   console.log('req.file :', req.file);
-// });
+
 // HERE WE WILL LET OUR APP TO GET ACCESS TO THE STATIC FOLDERS LIKE CSS, IMAGES.
 app.use(express.static(resolve(__dirname, '../public')));
 app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));

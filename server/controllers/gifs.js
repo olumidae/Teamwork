@@ -61,24 +61,39 @@ const Gif = {
     });
   },
 
-  async sendGif(req, res) {
-    if (req.file) {
-      const file = dataUri(req).content;
-
-      return uploader.upload(file).then((result) => {
-        const image = result.url;
-        return res.status(200).json({
-          messge: 'Your image has been uploded successfully to cloudinary',
-          data: {
-            image,
-          },
+  async deleteGif(req, res) {
+    const { gifId } = req.params;
+    const { id } = req.user;
+    const selectGif = {
+      text: 'SELECT * FROM Gifs WHERE createdBy = $1 AND id= $2',
+      values: [id, gifId],
+    };
+    // 'DELETE FROM Articles WHERE id = $1 AND createdBy = $2',
+    try {
+      const { rows } = await pool.query(selectGif);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 'error',
+          error: 'No gif found',
         });
-      }).catch((err) => res.status(400).json({
-        messge: 'someting went wrong while processing your request',
+      }
+
+      const deleteGif = {
+        text: 'DELETE FROM Gifs WHERE id= $1 and createdBy = $2',
+        values: [gifId, id],
+      };
+      await pool.query(deleteGif);
+      return res.status(200).json({
+        status: 'error',
         data: {
-          err,
+          message: 'Gif post successfully deleted',
         },
-      }));
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 'error',
+        error: `Server Error: ${error.message}`,
+      });
     }
   },
 };
