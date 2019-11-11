@@ -8,7 +8,7 @@ import validateArticle, { checkArticleId, checkUserArticleId } from '../middlewa
 import validateComment from '../middlewares/comment';
 import { cloudinaryConfig } from '../config/cloudinaryConfig';
 import { multerUploads } from '../middlewares/multer';
-import { checkGifId, checkUserGifId } from '../middlewares/gif';
+import { checkGifId } from '../middlewares/gif';
 
 const router = express.Router();
 
@@ -21,4 +21,5 @@ router.delete('/articles/:articleId', tokenValidator.validateUserToken, Article.
 router.post('/articles/:articleId/comment', tokenValidator.validateUserToken, checkArticleId, validateComment, Comments.postArticleComments);
 router.get('/articles/:articleId', tokenValidator.validateUserToken, Article.getArticleById);
 router.delete('/gifs/:gifId', tokenValidator.validateUserToken, checkGifId, Gif.deleteGif);
+router.post('/gifs/:gifId/comment', tokenValidator.validateUserToken, checkGifId, validateComment, Comments.postGifsComment);
 export default router;
