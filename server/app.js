@@ -15,7 +15,7 @@ dotenv.config();
 
 // HERE WE WILL LET OUR APP TO GET ACCESS TO THE STATIC FOLDERS LIKE CSS, IMAGES.
 app.use(express.static(resolve(__dirname, '../public')));
-app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
+// app.get('/*', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
 // app.use('/api/v1', express.static('images'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
