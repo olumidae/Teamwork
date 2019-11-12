@@ -9,6 +9,7 @@ import validateComment from '../middlewares/comment';
 import { cloudinaryConfig } from '../config/cloudinaryConfig';
 import { multerUploads } from '../middlewares/multer';
 import { checkGifId } from '../middlewares/gif';
+import Feed from '../controllers/feed';
 
 const router = express.Router();
 
@@ -22,4 +23,6 @@ router.post('/articles/:articleId/comment', tokenValidator.validateUserToken, ch
 router.get('/articles/:articleId', tokenValidator.validateUserToken, Article.getArticleById);
 router.delete('/gifs/:gifId', tokenValidator.validateUserToken, checkGifId, Gif.deleteGif);
 router.post('/gifs/:gifId/comment', tokenValidator.validateUserToken, checkGifId, validateComment, Comments.postGifsComment);
+router.get('/feed', tokenValidator.validateUserToken, Feed.getFeed);
+
 export default router;
