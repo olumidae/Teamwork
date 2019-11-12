@@ -24,5 +24,6 @@ router.get('/articles/:articleId', tokenValidator.validateUserToken, Article.get
 router.delete('/gifs/:gifId', tokenValidator.validateUserToken, checkGifId, Gif.deleteGif);
 router.post('/gifs/:gifId/comment', tokenValidator.validateUserToken, checkGifId, validateComment, Comments.postGifsComment);
 router.get('/feed', tokenValidator.validateUserToken, Feed.getFeed);
+router.get('/gifs/:gifId/', tokenValidator.validateUserToken, checkGifId, Gif.getGifById);
 
 export default router;

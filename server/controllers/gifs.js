@@ -96,6 +96,45 @@ const Gif = {
       });
     }
   },
+
+  async getGifById(req, res) {
+    const { gifId } = req.params;
+    const findGif = {
+      text: 'SELECT * FROM Gifs where id = $1',
+      values: [gifId],
+    };
+    const findComments = {
+      text: 'SELECT * FROM GifComments WHERE gifId = $1',
+      values: [gifId],
+    };
+
+    try {
+      const { rows } = await pool.query(findGif);
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 'error',
+          error: 'Gif not found',
+        });
+      }
+      const { rows: comments } = await pool.query(findComments);
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          id: rows[0].id,
+          createdon: rows[0].createdon,
+          title: rows[0].title,
+          imageurl: rows[0].imageurl,
+          comments,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 'error',
+        error: `Server Error: ${error.message}`,
+      });
+    }
+  },
 };
 
 export default Gif;
