@@ -41,11 +41,11 @@ const errorHandler = (error) => {
 const address = server.address();
 console.log('Address: ', address);
 const bind = typeof address === 'string' ? `pipe ${address}` : `port: ${port}`;
-  console.log('Bind :', bind)
+console.log('Bind :', bind)
 server.on('error', errorHandler);
 server.on('listening', () => {
   let address = server.address();
-  let bind = typeof address === 'string' ? `pipe ${  address}` : `port ${  port}`;
+  let bind = typeof address === 'string' ? `pipe ${address}` : `port ${port}`;
   console.log(`Listening on ${bind}`);
 });
 
