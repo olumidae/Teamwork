@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "nyc mocha ./server/test/**/*.test.js --exec babel-node --require babel-core/register --timeout 30000 --exit",
+<<<<<<< HEAD
     "test-try": "npm run seed && nyc mocha ./server/test/test.test.js --exec babel-node --require babel-core/register --timeout 30000 --exit",
+=======
+>>>>>>> 1986222e6add5a924048bdad7e8b7b98ed651b3d
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./server -s",
     "build": "npm run clean && npm run build-babel",

@@ -43,6 +43,14 @@ const User = {
   async logInUser(req, res) {
     const { email, password } = req.body;
     const queryText = 'SELECT * FROM Users where email = $1';
+<<<<<<< HEAD
+=======
+    const { rows } = await pool.query(queryText, [email]);
+    const comparePassword = bcrypt.compareSync(password, rows[0].password);
+    if (!rows[0].email || !comparePassword) {
+      return res.status(400).json({ status: 'error', error: 'Email/Password is incorrect' });
+    }
+>>>>>>> 1986222e6add5a924048bdad7e8b7b98ed651b3d
     try {
       const { rows } = await pool.query(queryText, [email]);
       const comparePassword = bcrypt.compareSync(password, rows[0].password);
