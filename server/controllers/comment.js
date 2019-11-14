@@ -80,7 +80,7 @@ const Comments = {
         data: {
           message: 'Comment succeessfully posted',
           createdOn: rowsInsert[0].createdon,
-          title: rows[0].title,
+          gifTitle: rows[0].title,
           comment: rowsInsert[0].gifcomment,
         },
       });

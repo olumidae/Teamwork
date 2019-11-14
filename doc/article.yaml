@@ -1,0 +1,77 @@
+paths:
+  /articles:
+    post:
+      tags:
+        - article
+      security:
+      - Bearer: []
+      summary: It posts an article
+      description: User can create an article
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        description: Article object
+        required: true
+        schema:
+          $ref: '#/definitions/'
+          CreateBusReq
+        responses:
+          200:
+            description: Article successfully created
+            schema:
+              $ref: '#/definitions/CreateArticleRes'
+          401:
+            description: No token provided
+            schema:
+            $ref: '#/definitions/errorDef'
+          500:
+            description: Server error
+            schema:
+            $ref: '#/definitions/errorDef'
+  /articles/{articleId}:
+    get:
+      tags:
+        - articles
+      security:
+      - Bearer: []
+      summary: It lets user view comment
+      description: User can view a specific comment
+      produces:
+      - application/json
+      parameters:
+      - name: articleId
+        in: path
+        description: path parameter takes the article Id
+        required: true
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/GetArticleRes'
+        404:
+          description: Article not found
+          schema:
+            $ref: '#/definitions/errorDef'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/errorDef'
+definitions:
+  CreateArticleReq:
+  type: object
+  properties:
+    id:
+      type: string
+    title:
+      type: string
+    article:
+      type: string
+    createdby:
+      type: string
+    createdon:
+      type: datetime

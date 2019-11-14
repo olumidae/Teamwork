@@ -27,7 +27,6 @@ export const tokenValidator = {
         const rows = await queryUser(decoded);
         if (rows[0]) {
           req.user = rows[0];
-          console.log(rows[0]);
           req.decoded = decoded;
           return next();
         }
@@ -45,7 +44,7 @@ export const tokenValidator = {
 
   async validateAdminToken(req, res, next) {
     const { token } = req.headers;
-    console.log(token);
+
     if (token) {
       jwt.verify(token, secret, async (err, decoded) => {
         if (err) {
