@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { resolve } from 'path';
 import bodyParser from 'body-parser';
+import swaggerSpec from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import router from './routes/routes';
-
 
 require('babel-core/register');
 require('babel-polyfill');
@@ -12,6 +13,9 @@ require('babel-polyfill');
 const app = express();
 
 dotenv.config();
+
+// use swagger-Ui-express for your app documentation endpoint
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // HERE WE WILL LET OUR APP TO GET ACCESS TO THE STATIC FOLDERS LIKE CSS, IMAGES.
 app.use(express.static(resolve(__dirname, '../public')));

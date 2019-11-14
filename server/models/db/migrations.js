@@ -50,8 +50,8 @@ const createTable = `DROP TABLE IF EXISTS users CASCADE;
     )
 
 `;
-const alt = `ALTER TABLE Gifs
-ALTER column createdBy SERIAL NOT NULL REFERENCES Users (id) ON DELETE CASCADE `;
+// const alt = `ALTER TABLE Articles nocheck constraint all
+// ALTER column createdBy SERIAL NOT NULL REFERENCES Users (id) ON DELETE CASCADE `;
 
 
 pool.query(createTable).catch((err) => console.log(err.message));

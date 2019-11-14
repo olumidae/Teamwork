@@ -11,27 +11,26 @@ const Feed = {
     };
 
     try {
-      const { rows } = await pool.query(getArticles);
+      const { rows: data } = await pool.query(getArticles);
 
-      if (!rows) {
+      if (!data) {
         return res.status(404).json({
           status: 'error',
           error: 'No article found',
         });
       }
-      const { rows: giffeed } = await pool.query(getGifs);
+      // const { rows: giffeed } = await pool.query(getGifs);
 
-      if (!giffeed) {
-        return res.status(404).json({
-          status: 'Error',
-          error: 'No gifs found',
-        });
-      }
+      // if (!giffeed) {
+      //   return res.status(404).json({
+      //     status: 'Error',
+      //     error: 'No gifs found',
+      //   });
+      // }
 
       return res.status(200).json({
         status: 'success',
-        rows,
-        giffeed,
+        data,
       });
     } catch (error) {
       return res.status(500).json({
