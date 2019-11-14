@@ -126,7 +126,7 @@ describe('User Authentication', () => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'jsmith@gmail.com',
+        email: 'johnsmith@gmail.com',
         password: 'password@123',
       })
       .end((err, res) => {
@@ -169,7 +169,7 @@ describe('Articles', () => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'jsmith@gmail.com',
+        email: 'johnsmith@gmail.com',
         password: 'password@123',
       })
       .end((err, res) => {
