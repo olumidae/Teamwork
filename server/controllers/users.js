@@ -15,14 +15,13 @@ const User = {
     const { id, firstName, lastName, email, password, jobRole, department, address } = req.body;
     const hashPassword = bcrypt.hashSync(password, 10);
     const values = [firstName, lastName, email, hashPassword, jobRole, department, address];
-
-    const { rows } = await pool.query(existingUser, [email]);
-
-    if (rows[0] && rows[0].email === email) {
-      return res.status(400).json({ status: 'error', error: 'User already exists' });
-    }
-
     try {
+      const { rows } = await pool.query(existingUser, [email]);
+
+      if (rows[0] && rows[0].email === email) {
+        return res.status(400).json({ status: 'error', error: 'User already exists' });
+      }
+
       const { rows: rowsInsert } = await pool.query(selectText, values);
       const token = jwt.sign({ id, email }, secret, { expiresIn: expirationTime });
       return res.status(201).json({
@@ -41,12 +40,13 @@ const User = {
   async logInUser(req, res) {
     const { email, password } = req.body;
     const queryText = 'SELECT * FROM Users where email = $1';
-    const { rows } = await pool.query(queryText, [email]);
-    const comparePassword = bcrypt.compareSync(password, rows[0].password);
-    if (!rows[0].email || !comparePassword) {
-      return res.status(400).json({ status: 'error', error: 'Email/Password is incorrect' });
-    }
     try {
+      const { rows } = await pool.query(queryText, [email]);
+      const comparePassword = bcrypt.compareSync(password, rows[0].password);
+      if (!rows[0].email || !comparePassword) {
+        return res.status(400).json({ status: 'error', error: 'Email/Password is incorrect' });
+      }
+    
       const updateText = 'UPDATE Users SET isLoggedIn = true WHERE email=$1 RETURNING *';
       const { rows: rowsUpdate } = await pool.query(updateText, [email]);
       const token = jwt.sign({ id: rows[0].id, email }, secret, { expiresIn: expirationTime });

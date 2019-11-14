@@ -5,15 +5,15 @@
   "main": "app.js",
   "scripts": {
     "test": "nyc mocha ./server/test/**/*.test.js --exec babel-node --require babel-core/register --timeout 30000 --exit",
-    "clean": "rm -rf build && mkdir build",
+    "clean": "mkdir build",
     "build-babel": "babel -d ./build ./server -s",
     "build": "npm run clean && npm run build-babel",
-    "prod": "npm run build && node ./build/app.js",
+    "start": "npm run build && node ./build/server.js",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
-    "start": "nodemon --exec babel-node ./server/server.js",
+    "prod": "nodemon --exec babel-node ./server/server.js",
     "migration": "babel-node ./server/models/db/migrations.js",
     "seed": "babel-node ./server/models/db/seed.js"
   },
