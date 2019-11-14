@@ -12,7 +12,9 @@ const selectText = 'INSERT INTO Users (firstName, lastName, email, password, job
 
 const User = {
   async signupUser(req, res) {
-    const { id, firstName, lastName, email, password, jobRole, department, address } = req.body;
+    const {
+      id, firstName, lastName, email, password, jobRole, department, address,
+    } = req.body;
     const hashPassword = bcrypt.hashSync(password, 10);
     const values = [firstName, lastName, email, hashPassword, jobRole, department, address];
     try {
@@ -21,7 +23,6 @@ const User = {
       if (rows[0] && rows[0].email === email) {
         return res.status(400).json({ status: 'error', error: 'User already exists' });
       }
-
       const { rows: rowsInsert } = await pool.query(selectText, values);
       const token = jwt.sign({ id, email }, secret, { expiresIn: expirationTime });
       return res.status(201).json({
@@ -46,7 +47,6 @@ const User = {
       if (!rows[0].email || !comparePassword) {
         return res.status(400).json({ status: 'error', error: 'Email/Password is incorrect' });
       }
-    
       const updateText = 'UPDATE Users SET isLoggedIn = true WHERE email=$1 RETURNING *';
       const { rows: rowsUpdate } = await pool.query(updateText, [email]);
       const token = jwt.sign({ id: rows[0].id, email }, secret, { expiresIn: expirationTime });
