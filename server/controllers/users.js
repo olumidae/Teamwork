@@ -44,7 +44,7 @@ const User = {
     const { rows } = await pool.query(queryText, [email]);
     const comparePassword = bcrypt.compareSync(password, rows[0].password);
     if (!rows[0].email || !comparePassword) {
-      return res.status(401).json({ status: 'error', error: 'Email/Password is incorrect' });
+      return res.status(400).json({ status: 'error', error: 'Email/Password is incorrect' });
     }
     try {
       const updateText = 'UPDATE Users SET isLoggedIn = true WHERE email=$1 RETURNING *';
