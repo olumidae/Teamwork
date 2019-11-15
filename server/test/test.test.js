@@ -464,21 +464,4 @@ describe('Gifs', () => {
       });
   });
 
-  it('Lets user view gif by ID', () => {
-    chai
-      .request(app)
-      .get('/api/v1/gifs/1')
-      .set('token', token)
-      .send({
-
-      })
-      .end((err, res) => {
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('data');
-        expect(res.body.data).to.be.an('object');
-        expect(res.body.data).to.have.property('createdOn');
-        expect(res.body.data).to.have.property('title');
-        expect(res.body.data).to.have.property('imageurl');
-      });
-  });
 });
