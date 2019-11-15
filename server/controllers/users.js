@@ -44,9 +44,10 @@ const User = {
     try {
       const { rows } = await pool.query(queryText, [email]);
       const comparePassword = bcrypt.compareSync(password, rows[0].password);
-      if (!rows[0].email || !comparePassword) {
+      if (!rows[0].email) {
         return res.status(400).json({ status: 'error', error: 'Email/Password is incorrect' });
       }
+      if (!comparePassword) return res.status(401).json({ status: 'error', error: 'Email/Password is incorrect' });
       const updateText = 'UPDATE Users SET isLoggedIn = true WHERE email=$1 RETURNING *';
       const { rows: rowsUpdate } = await pool.query(updateText, [email]);
       const token = jwt.sign({ id: rows[0].id, email }, secret, { expiresIn: expirationTime });
@@ -60,7 +61,7 @@ const User = {
       });
     } catch (e) {
       return res.status(500).json({
-        status: 'error', error: 'Internal server error ',
+        status: 'error', error: `Server Error ${e.message}`,
       });
     }
   },
