@@ -473,7 +473,7 @@ describe('Gifs', () => {
   it('Lets user view gif by ID', () => {
     chai
       .request(app)
-      .get('api/v1/gif/1')
+      .get('api/v1/gifs/1')
       .set('token', token)
       .send({
 
