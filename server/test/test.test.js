@@ -18,8 +18,8 @@ describe('User Authentication', () => {
       firstName, LastName, email, password, jobRole, department, address, isAdmin, isLoggedIn) VALUES
       ('Olumide', 'Omitiran', 'admin@gmail.com', '$2b$10$M7KDGr9g3tKfFWC0RpuXI.mZPlEkZarOSQTmhKIxh4GXVRb2OscrO', 'admin', 'IT', '23, Diagon Alley', 'true', 'true'),
       ('Test', 'User', 'testuser@gmail.com', '$2b$10$M7KDGr9g3tKfFWC0RpuXI.mZPlEkZarOSQTmhKIxh4GXVRb2OscrO', 'Accountant', 'Accounting', '23, Bourdillion Drive', 'false', 'false');
-      INSERT INTO Gifs (id, title, imageurl, imagecloudid, createdby) VALUES
-      ('1', 'snoop', 'http://res.cloudinary.com/olumidae/image/upload/v1573430301/dlhcsmg6tbfyhpstijwy.gif', 'dlhcsmg6tbfyhpstijwy', '2');
+      INSERT INTO Gifs (title, imageurl, imagecloudid, createdby) VALUES
+      ('snoop', 'http://res.cloudinary.com/olumidae/image/upload/v1573430301/dlhcsmg6tbfyhpstijwy.gif', 'dlhcsmg6tbfyhpstijwy', '2');
       `;
     const deleteJohn = 'DELETE FROM Users WHERE email = \'johnsmith@gmail.com\';';
     
@@ -473,7 +473,7 @@ describe('Gifs', () => {
   it('Lets user view gif by ID', () => {
     chai
       .request(app)
-      .get('api/v1/gif/3')
+      .get('api/v1/gif/1')
       .set('token', token)
       .send({
 
@@ -485,7 +485,6 @@ describe('Gifs', () => {
         expect(res.body.data).to.have.property('createdOn');
         expect(res.body.data).to.have.property('title');
         expect(res.body.data).to.have.property('imageurl');
-        expect(res.body.data).to.have.property('comments');
       });
   });
 });
