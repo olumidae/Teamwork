@@ -18,11 +18,11 @@ describe('User Authentication', () => {
       firstName, LastName, email, password, jobRole, department, address, isAdmin, isLoggedIn) VALUES
       ('Olumide', 'Omitiran', 'admin@gmail.com', '$2b$10$M7KDGr9g3tKfFWC0RpuXI.mZPlEkZarOSQTmhKIxh4GXVRb2OscrO', 'admin', 'IT', '23, Diagon Alley', 'true', 'true'),
       ('Test', 'User', 'testuser@gmail.com', '$2b$10$M7KDGr9g3tKfFWC0RpuXI.mZPlEkZarOSQTmhKIxh4GXVRb2OscrO', 'Accountant', 'Accounting', '23, Bourdillion Drive', 'false', 'false');
-      INSERT INTO Gifs (title, imageurl, imagecloudid, createdby) VALUES
-      ('snoop', 'http://res.cloudinary.com/olumidae/image/upload/v1573430301/dlhcsmg6tbfyhpstijwy.gif', 'dlhcsmg6tbfyhpstijwy', '2');
+      INSERT INTO Gifs (id, title, imageurl, imagecloudid, createdby) VALUES
+      ('1', 'snoop', 'http://res.cloudinary.com/olumidae/image/upload/v1573430301/dlhcsmg6tbfyhpstijwy.gif', 'dlhcsmg6tbfyhpstijwy', '2');
       `;
     const deleteJohn = 'DELETE FROM Users WHERE email = \'johnsmith@gmail.com\';';
-    
+
     pool.query(deleteArticles, () => {
       pool.query(deleteArticleComments, () => {
         pool.query(deleteJohn, () => {
@@ -39,9 +39,9 @@ describe('User Authentication', () => {
               expect(res.body).to.have.property('data');
               expect(res.body.data).to.have.property('userId');
               expect(res.body.data).to.have.property('token');
-               admintoken = res.body.data.token;
-               done();
-            });  
+              admintoken = res.body.data.token;
+              done();
+            });
         }).catch((e) => console.log(e.message));
       }).catch(() => {
         console.log('');
@@ -49,9 +49,6 @@ describe('User Authentication', () => {
     }).catch(() => {
       console.log('');
     });
-
-   
-
   });
 
   it('Lets admin login', (done) => {
@@ -89,8 +86,6 @@ describe('User Authentication', () => {
         address: '23, Bourdillion Drive',
       })
       .end((err, res) => {
-        console.log('>>>>>>> ERR MESSAGE', err)
-        console.log(res.body);
         expect(res.body.status).to.equal('success');
         expect(res.body).to.have.property('status');
         expect(res.body).to.have.property('data');
@@ -98,7 +93,6 @@ describe('User Authentication', () => {
         expect(res.body.data).to.have.property('token');
         expect(res.body).to.be.an('object');
         token = res.body.data.token;
-        console.log(token)
         done();
       });
   });
