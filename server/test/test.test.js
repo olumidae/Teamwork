@@ -12,45 +12,36 @@ let token2;
 
 describe('User Authentication', () => {
   before((done) => {
-    const deleteArticles = 'DROP TABLE Articles, ArticleComments;';
-    const deleteArticleComments = `CREATE TABLE Articles (
-          id SERIAL PRIMARY KEY NOT NULL,
-          title VARCHAR(128) NOT NULL,
-          article VARCHAR NOT NULL,
-          category VARCHAR(50) NOT NULL,
-          createdBy SERIAL NOT NULL REFERENCES Users (id),
-          createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-      CREATE TABLE ArticleComments (
-        id SERIAL PRIMARY KEY NOT NULL,
-        articleId SERIAL NOT NULL REFERENCES Articles (id),
-        articleComment VARCHAR(400) NOT NULL,
-        createdBy SERIAL NOT NULL REFERENCES Users (id),
-        createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );`;
+    const deleteArticles = 'DELETE FROM Users;';
+    const deleteArticleComments = `DELETE FROM users;
+    INSERT INTO Users (
+      firstName, LastName, email, password, jobRole, department, address, isAdmin, isLoggedIn) VALUES
+      ('Olumide', 'Omitiran', 'admin@gmail.com', '$2b$10$M7KDGr9g3tKfFWC0RpuXI.mZPlEkZarOSQTmhKIxh4GXVRb2OscrO', 'admin', 'IT', '23, Diagon Alley', 'true', 'true'),
+      ('Test', 'User', 'testuser@gmail.com', '$2b$10$M7KDGr9g3tKfFWC0RpuXI.mZPlEkZarOSQTmhKIxh4GXVRb2OscrO', 'Accountant', 'Accounting', '23, Bourdillion Drive', 'false', 'false');
+      INSERT INTO Gifs (id, title, imageurl, imagecloudid, createdby) VALUES
+      ('1', 'snoop', 'http://res.cloudinary.com/olumidae/image/upload/v1573430301/dlhcsmg6tbfyhpstijwy.gif', 'dlhcsmg6tbfyhpstijwy', '2');
+      `;
     const deleteJohn = 'DELETE FROM Users WHERE email = \'johnsmith@gmail.com\';';
     
     pool.query(deleteArticles, () => {
       pool.query(deleteArticleComments, () => {
         pool.query(deleteJohn, () => {
-          // chai.request(app)
-          //   .post('/api/v1/auth/signin')
-          //   .send({
-          //     email: 'admin@gmail.com',
-          //     password: 'password@123',
-          //   })
-          //   .end((err, res) => {
-          //     expect(res.status).to.be.equal(200);
-          //     expect(res.body.status).to.equal('success');
-          //     expect(res.body).to.have.property('status');
-          //     expect(res.body).to.have.property('data');
-          //     expect(res.body.data).to.have.property('userId');
-          //     expect(res.body.data).to.have.property('token');
-          //     expect(res.body).to.be.an('object');
-          //     admintoken = res.body.data.token;
-          //     done();
-          //   });
-          done();
+          chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send({
+              email: 'admin@gmail.com',
+              password: 'password@123',
+            })
+            .end((err, res) => {
+              expect(res.status).to.be.equal(200);
+              expect(res.body.status).to.equal('success');
+              expect(res.body).to.have.property('status');
+              expect(res.body).to.have.property('data');
+              expect(res.body.data).to.have.property('userId');
+              expect(res.body.data).to.have.property('token');
+               admintoken = res.body.data.token;
+               done();
+            });  
         }).catch((e) => console.log(e.message));
       }).catch(() => {
         console.log('');
@@ -98,6 +89,7 @@ describe('User Authentication', () => {
         address: '23, Bourdillion Drive',
       })
       .end((err, res) => {
+        console.log('>>>>>>> ERR MESSAGE', err)
         console.log(res.body);
         expect(res.body.status).to.equal('success');
         expect(res.body).to.have.property('status');
@@ -106,6 +98,7 @@ describe('User Authentication', () => {
         expect(res.body.data).to.have.property('token');
         expect(res.body).to.be.an('object');
         token = res.body.data.token;
+        console.log(token)
         done();
       });
   });
