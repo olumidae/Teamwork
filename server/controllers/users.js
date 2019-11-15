@@ -34,7 +34,7 @@ const User = {
         },
       });
     } catch (e) {
-      return res.status(500).json({ status: 'error', error: 'Internal server error ' });
+      return res.status(500).json({ status: 'error', error: `Server error: ${e.message}` });
     }
   },
 
@@ -61,7 +61,7 @@ const User = {
       });
     } catch (e) {
       return res.status(500).json({
-        status: 'error', error: `Server Error ${e.message}`,
+        status: 'error', error: `Server Error: ${e.message}`,
       });
     }
   },
