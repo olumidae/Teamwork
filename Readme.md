@@ -1,4 +1,8 @@
-<a href="https://codeclimate.com/github/olumidae/Teamwork/maintainability"><img src="https://api.codeclimate.com/v1/badges/01afcb208a326abddb6c/maintainability" /></a>
+[![Maintainability](https://api.codeclimate.com/v1/badges/01afcb208a326abddb6c/maintainability)](https://codeclimate.com/github/olumidae/Teamwork/maintainability)
+[![Build Status](https://travis-ci.org/olumidae/Teamwork.svg?branch=develop)](https://travis-ci.org/olumidae/Teamwork)
+[![Coverage Status](https://coveralls.io/repos/github/olumidae/Teamwork/badge.svg?branch=ch-fix-codebase)](https://coveralls.io/github/olumidae/Teamwork?branch=ch-fix-codebase)
+
+
 
 ## Project Title
 Teamwork is an ​internal social network for employees of an organization. The aim of this application is to facilitate more interaction between colleagues and promote team bonding. 
