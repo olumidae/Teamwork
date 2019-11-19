@@ -27,14 +27,20 @@ app.use(bodyParser.json());
 app.use('/api/v1', router);
 
 // HANDLING CORS ERRORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', '*');
-  if (req.method === 'OPTIONS') {
-    res.headers('Access Controll-Allow-Mthods', 'POST, PUT, GET, DELETE');
-    return res.status(200).json({});
-  }
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', '*');
+//   if (req.method === 'OPTIONS') {
+//     res.headers('Access Controll-Allow-Methods', 'POST, PUT, GET, DELETE');
+//     return res.status(200).json({});
+//   }
+//   return next();
+// });
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
 
