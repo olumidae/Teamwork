@@ -64,25 +64,15 @@ const Gif = {
   async deleteGif(req, res) {
     const { gifId } = req.params;
     const { id } = req.user;
-    const selectGif = {
-      text: 'SELECT * FROM Gifs WHERE createdBy = $1 AND id= $2',
-      values: [id, gifId],
-    };
-    // 'DELETE FROM Articles WHERE id = $1 AND createdBy = $2',
+    const selectGif = 'SELECT * FROM Gifs WHERE createdBy = $1 AND id= $2';
     try {
-      const { rows } = await pool.query(selectGif);
+      const { rows } = await pool.query(selectGif, [id, gifId]);
       if (!rows[0]) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'No gif found',
-        });
+        return res.status(404).json({ status: 'error', error: 'No gif found' });
       }
 
-      const deleteGif = {
-        text: 'DELETE FROM Gifs WHERE id= $1 and createdBy = $2',
-        values: [gifId, id],
-      };
-      await pool.query(deleteGif);
+      const deleteGif = 'DELETE FROM Gifs WHERE id= $1 and createdBy = $2';
+      await pool.query(deleteGif, [gifId, id]);
       return res.status(200).json({
         status: 'error',
         data: {
@@ -99,24 +89,15 @@ const Gif = {
 
   async getGifById(req, res) {
     const { gifId } = req.params;
-    const findGif = {
-      text: 'SELECT * FROM Gifs where id = $1',
-      values: [gifId],
-    };
-    const findComments = {
-      text: 'SELECT * FROM GifComments WHERE gifId = $1',
-      values: [gifId],
-    };
+    const findGif = 'SELECT * FROM Gifs where id = $1';
+    const findComments = 'SELECT * FROM GifComments WHERE gifId = $1';
 
     try {
-      const { rows } = await pool.query(findGif);
+      const { rows } = await pool.query(findGif, [gifId]);
       if (!rows[0]) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'Gif not found',
-        });
+        return res.status(404).json({ status: 'error', error: 'Gif not found' });
       }
-      const { rows: comments } = await pool.query(findComments);
+      const { rows: comments } = await pool.query(findComments, [gifId]);
 
       return res.status(200).json({
         status: 'success',
@@ -129,10 +110,7 @@ const Gif = {
         },
       });
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        error: `Server Error: ${error.message}`,
-      });
+      return res.status(500).json({ status: 'error', error: `Server Error: ${error.message}` });
     }
   },
 };
