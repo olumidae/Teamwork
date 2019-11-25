@@ -102,24 +102,14 @@ const Article = {
 
   async getArticleById(req, res) {
     const { articleId } = req.params;
-    const findArticle = {
-      text: 'SELECT * FROM Articles where id = $1',
-      values: [articleId],
-    };
-    const findComments = {
-      text: 'SELECT * FROM ArticleComments WHERE articleId = $1',
-      values: [articleId],
-    };
-
+    const findArticle = 'SELECT * FROM Articles where id = $1';
+    const findComments = 'SELECT * FROM ArticleComments WHERE articleId = $1';
     try {
-      const { rows } = await pool.query(findArticle);
+      const { rows } = await pool.query(findArticle, [articleId]);
       if (!rows[0]) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'Article not found',
-        });
+        return res.status(404).json({ status: 'error', error: 'Article not found' });
       }
-      const { rows: comments } = await pool.query(findComments);
+      const { rows: comments } = await pool.query(findComments, [articleId]);
       return res.status(200).json({
         status: 'success',
         data: {
@@ -131,10 +121,7 @@ const Article = {
         },
       });
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        error: `Server Error: ${error.message}`,
-      });
+      return res.status(500).json({ status: 'error', error: `Server Error: ${error.message}` });
     }
   },
 };

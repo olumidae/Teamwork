@@ -60,16 +60,10 @@ export const tokenValidator = {
           req.decoded = decoded;
           return next();
         }
-        return res.status(403).json({
-          status: 'error',
-          error: 'Not an admin user',
-        });
+        return res.status(403).json({ status: 'error', error: 'Not an admin user' });
       });
     } else {
-      return res.status(400).json({
-        status: 'error',
-        error: 'token not provided',
-      });
+      return res.status(400).json({ status: 'error', error: 'token not provided' });
     }
   },
 

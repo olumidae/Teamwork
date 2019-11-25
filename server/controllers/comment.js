@@ -7,28 +7,11 @@ const Comments = {
     const { comment } = req.body;
     let { createdOn } = req.body;
     createdOn = new Date();
-
-    const findArticle = {
-      text: 'SELECT FROM Articles WHERE id = $1',
-      values: [articleId],
-    };
-
+    const findArticle = 'SELECT FROM Articles WHERE id = $1';
     try {
-      const { rows } = await pool.query(findArticle);
-
-      if (!rows[0]) {
-        return res.status(404).json({
-          errror: 'error',
-          status: 'Article not found',
-        });
-      }
-
-      const postComment = {
-        text: 'INSERT INTO ArticleComments(articleId, articleComment, createdBy, createdOn) VALUES ($1, $2, $3, $4) RETURNING *',
-        values: [articleId, comment, id, createdOn],
-      };
-      const { rows: rowsInsert } = await pool.query(postComment);
-
+      const { rows } = await pool.query(findArticle, [articleId]);
+      const postComment = 'INSERT INTO ArticleComments(articleId, articleComment, createdBy, createdOn) VALUES ($1, $2, $3, $4) RETURNING *';
+      const { rows: rowsInsert } = await pool.query(postComment, [articleId, comment, id, createdOn]);
       return res.status(200).json({
         status: 'success',
         data: {
