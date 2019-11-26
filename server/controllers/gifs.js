@@ -91,7 +91,6 @@ const Gif = {
     const { gifId } = req.params;
     const findGif = 'SELECT * FROM Gifs where id = $1';
     const findComments = 'SELECT * FROM GifComments WHERE gifId = $1';
-
     try {
       const { rows } = await pool.query(findGif, [gifId]);
       if (!rows[0]) {
