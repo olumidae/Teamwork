@@ -39,12 +39,9 @@ export async function checkArticleId(req, res, next) {
 export async function checkUserArticleId(req, res, next) {
   const { id } = req.user;
   const { articleId } = req.params;
-  const selectArticle = {
-    text: 'SELECT * FROM Articles WHERE createdBy = $1 AND id= $2',
-    values: [id, articleId],
-  };
+  const selectArticle = 'SELECT * FROM Articles WHERE createdBy = $1 AND id= $2';
   try {
-    const { rows } = await pool.query(selectArticle);
+    const { rows } = await pool.query(selectArticle, [id, articleId]);
     if (!rows[0]) {
       return res.status(404).json({
         status: 'error',

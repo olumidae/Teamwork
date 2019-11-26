@@ -82,9 +82,11 @@ export const signupValidator = (req, res, next) => {
 
 export const loginValidator = (req, res, next) => {
   const { error } = validateUser.loginValidator(req.body);
-  if (error) return res.status(400).json({
-    status: 'error',
-    error: error.details[0].message,
-  });
+  if (error) {
+    return res.status(400).json({
+      status: 'error',
+      error: error.details[0].message,
+    });
+  }
   return next();
 };
