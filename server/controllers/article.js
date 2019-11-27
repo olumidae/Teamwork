@@ -6,24 +6,14 @@ const Article = {
     const { title, article, category } = req.body;
     let { createdOn } = req.body;
     createdOn = new Date();
-    const queryText = {
-      text: 'SELECT * FROM articles WHERE title = $1',
-      values: [title],
-    };
+    const queryText = 'SELECT * FROM articles WHERE title = $1';
     try {
-      const { rows } = await pool.query(queryText);
+      const { rows } = await pool.query(queryText, [title]);
       if (rows[0]) {
-        return res.status(401).json({
-          status: 'error',
-          error: 'Article already exists',
-        });
+        return res.status(401).json({ status: 'error', error: 'Article already exists' });
       }
-      const insertArticle = {
-        text: 'INSERT INTO Articles (title, article, category, createdBy, createdOn) VALUES($1, $2, $3, $4, $5) RETURNING *',
-        values: [title, article, category, id, createdOn],
-      };
-
-      const { rows: rowsInsert } = await pool.query(insertArticle);
+      const insertArticle = 'INSERT INTO Articles (title, article, category, createdBy, createdOn) VALUES($1, $2, $3, $4, $5) RETURNING *';
+      const { rows: rowsInsert } = await pool.query(insertArticle, [title, article, category, id, createdOn]);
       return res.status(201).json({
         status: 'success',
         data: {
@@ -67,25 +57,14 @@ const Article = {
   async deleteArticle(req, res) {
     const { articleId } = req.params;
     const { id } = req.user;
-    const selectArticle = {
-      text: 'SELECT * FROM Articles WHERE createdBy = $1 AND id= $2',
-      values: [id, articleId],
-    };
-    // 'DELETE FROM Articles WHERE id = $1 AND createdBy = $2',
+    const selectArticle = 'SELECT * FROM Articles WHERE createdBy = $1 AND id= $2';
     try {
-      const { rows } = await pool.query(selectArticle);
+      const { rows } = await pool.query(selectArticle, [id, articleId]);
       if (!rows[0]) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'No article found',
-        });
+        return res.status(404).json({ status: 'error', error: 'No article found' });
       }
-
-      const deleteArticle = {
-        text: 'DELETE FROM Articles WHERE id= $1',
-        values: [articleId],
-      };
-      await pool.query(deleteArticle);
+      const deleteArticle = 'DELETE FROM Articles WHERE id= $1';
+      await pool.query(deleteArticle, [articleId]);
       return res.status(200).json({
         status: 'error',
         data: {

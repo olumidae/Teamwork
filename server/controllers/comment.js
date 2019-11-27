@@ -23,10 +23,7 @@ const Comments = {
         },
       });
     } catch (error) {
-      return res.status(500).json({
-        status: 'Error',
-        error: `Server error: ${error.message}`,
-      });
+      return res.status(500).json({ status: 'Error', error: `Server error: ${error.message}` });
     }
   },
 
@@ -36,28 +33,14 @@ const Comments = {
     const { comment } = req.body;
     let { createdOn } = req.body;
     createdOn = new Date();
-
-    const selectGif = {
-      text: 'SELECT * FROM Gifs WHERE id = $1',
-      values: [gifId],
-    };
-
-    const postGifComment = {
-      text: 'INSERT INTO GifComments(gifId, gifComment, createdBy, createdOn) VALUES ($1, $2, $3, $4) RETURNING *',
-      values: [gifId, comment, id, createdOn],
-    };
-
+    const selectGif = 'SELECT * FROM Gifs WHERE id = $1';
+    const postGifComment = 'INSERT INTO GifComments(gifId, gifComment, createdBy, createdOn) VALUES ($1, $2, $3, $4) RETURNING *';
     try {
-      const { rows } = await pool.query(selectGif);
-
+      const { rows } = await pool.query(selectGif, [gifId]);
       if (!rows[0]) {
-        return res.status(404).json({
-          status: 'Error',
-          error: 'Cannot find gif to comment on',
-        });
+        return res.status(404).json({ status: 'Error', error: 'Cannot find gif' });
       }
-      const { rows: rowsInsert } = await pool.query(postGifComment);
-
+      const { rows: rowsInsert } = await pool.query(postGifComment, [gifId, comment, id, createdOn]);
       return res.status(200).json({
         status: 'success',
         data: {
@@ -68,10 +51,7 @@ const Comments = {
         },
       });
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        error: `Server error: ${error.message}`,
-      });
+      return res.status(500).json({ status: 'error', error: `Server error: ${error.message}` });
     }
   },
 };
