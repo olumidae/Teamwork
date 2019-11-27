@@ -9,33 +9,19 @@ const Gif = {
     const { title } = req.body;
     let { createdOn } = req.body;
     createdOn = new Date();
-
-    const findImage = {
-      text: 'SELECT * FROM Gifs where title = $1',
-      values: [title],
-    };
-    const { rows } = await pool.query(findImage);
-
+    const findImage = 'SELECT * FROM Gifs where title = $1';
+    const { rows } = await pool.query(findImage, [title]);
     if (rows[0]) {
-      return res.status(400).json({
-        status: 'error',
-        error: 'Gif already exists with same title',
-      });
+      return res.status(400).json({ status: 'error', error: 'Gif already exists with same title' });
     }
-
     if (req.file) {
       const file = dataUri(req).content;
-
       uploader.upload(file).then(async (result) => {
         const image = result.url;
         const imageCloudId = result.public_id;
-        const insertGif = {
-          text: 'INSERT INTO Gifs (title, imageURL, imageCloudId, createdBy, createdOn) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-          values: [title, image, imageCloudId, id, createdOn],
-        };
-
+        const insertGif = 'INSERT INTO Gifs (title, imageURL, imageCloudId, createdBy, createdOn) VALUES ($1, $2, $3, $4, $5) RETURNING *';
         try {
-          const { rows: rowsInsert } = await pool.query(insertGif);
+          const { rows: rowsInsert } = await pool.query(insertGif, [title, image, imageCloudId, id, createdOn]);
           return res.status(200).json({
             status: 'success',
             data: {
@@ -48,10 +34,7 @@ const Gif = {
             },
           });
         } catch (e) {
-          return res.status(500).json({
-            status: 'error',
-            error: `Internal server error ${e.message}`,
-          });
+          return res.status(500).json({ status: 'error', error: `Internal server error ${e.message}` });
         }
       });
     }
