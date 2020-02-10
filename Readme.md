@@ -18,7 +18,7 @@ Install all dependencies by running the command: **npm** install
 
 Start the server by running thhe command: **npm** start
 
-Navigate to localhost: 3000/api/v1 in your browser to view the running application
+Navigate to https://the-teamwork.herokuapp.com/api/v1 in Postman to view the running application
 
 # Testing
 To run unit tests run the command : **npm** test in the command line terminal
@@ -70,11 +70,13 @@ To run unit tests run the command : **npm** test in the command line terminal
 * Employees can view all articles, showing the most recently posted articles first.
 * Employees can view a specific article. 
 
+## Credentials
+* Admin email: admin@gmail.com
+* Admin password: password@123
 
 ## Built With
 * *Node JS*
 * *Express JS*
-
 
 # Author
 ## Omitiran Olumide
